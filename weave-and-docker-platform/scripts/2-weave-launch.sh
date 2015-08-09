@@ -9,6 +9,11 @@ for i in $(seq 3) ; do
 
   tlsargs=$(docker-machine ssh "weave-${i}" "${find_tls_args}")
 
+  ## Stop anything partially started before
+  ./weave stop-proxy 2>/dev/null
+  ./weave stop-dns 2>/dev/null
+  ./weave stop 2>/dev/null
+
   ## We are going to use IPAM, hence estimated cluster size
   ## (`-initpeercount`) needs to be supplied,
   ## as we don't pass any peer addresses yet
